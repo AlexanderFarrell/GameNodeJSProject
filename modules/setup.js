@@ -3,7 +3,7 @@ const path = require('path');
 const session = require('express-session');
 
 function setupViewEngine(app){
-    app.set('views', path.join(__dirname, '\\..\\views'));
+    app.set('views', path.join(__dirname, '../views'));
     app.set('view engine', 'ejs');
     console.log("View Engine On");
 }
@@ -16,7 +16,7 @@ function setupOther(app){
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
     app.use(cookieParser());
-    app.use(express.static(path.join(__dirname, '\\..\\public')));
+    app.use(express.static(path.join(__dirname, '../public')));
     console.log("Generic Express Things On");
 }
 
