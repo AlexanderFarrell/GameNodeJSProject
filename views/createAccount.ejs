@@ -1,1 +1,41 @@
 Create Account
+
+<script>
+    function tryCreateAccount(){
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var passwordAgain = document.getElementById('passwordRe').value;
+        var params = JSON.stringify(username, password);
+
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (this.readyState === 4){
+                if (this.status === 200){
+
+                } else {
+                    document.getElementById('errorCode').innerText = req.responseText;
+                }
+            }
+        }
+
+        req.open("POST", '/create_account/create', true);
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        document.getElementById('errorCode').innerText = "Creating account...";
+        req.send("data=" + params);
+    }
+</script>
+
+<br>
+<label for="username">Username: </label>
+<input id="username" type="text">
+<br>
+<label for="password">Password: </label>
+<input id="password" type="password">
+<br>
+<label for="passwordRe">Re-Type Password: </label>
+<input id="passwordRe" type="password">
+<br>
+
+<button onclick="tryCreateAccount()">Create Account!</button>
+
+<p id="errorCode">Please enter</p>

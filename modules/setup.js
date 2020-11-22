@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const MemcachedStore = require('connect-memjs')(session);
 
 function setupViewEngine(app){
     app.set('views', path.join(__dirname, '../views'));
@@ -37,11 +38,25 @@ function setupSecurity(app){
 }
 
 function setupSessions(app){
-    app.use(session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true
-    }));
+    if (process.env.MEMCACHIER_SERVERS){
+        app.use(session({
+            secret: 'HeyWhatIsC',
+            resave: false,
+            saveUninitialized: false,
+            store: new MemcachedStore({
+                servers: [process.env.MEMCACHIER_SERVERS],
+                prefix: '_session_'
+            })
+        }));
+    } else {
+        app.use(session({
+            secret: 'HeyWhatIsC',
+            resave: true,
+            saveUninitialized: true
+        }));
+    }
+
+
     console.log("Sessions on");
 }
 

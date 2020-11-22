@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const database = require('./../modules/database');
 
 function doesUserExist(username, onError, onSuccess){
-    database.dataQuery('SELECT (username) FROM accounts WHERE username = ?', onError,
+    database.dataQuery('SELECT (username) FROM players WHERE username = ?', onError,
         (data) => {
             return onSuccess((data.rows > 0))
         });
@@ -19,7 +19,7 @@ exports.createUser = function (username, password, onError, onSuccess){
                 bcrypt.genSalt(10, (error, salt) => {
                     bcrypt.hash(password, salt, (error, hash) => {
                         const query = {
-                            text: "INSERT INTO users(name, pass) VALUES($n, $p)",
+                            text: "INSERT INTO players(name, pass) VALUES($n, $p)",
                             values: [username, hash]
                         };
 
